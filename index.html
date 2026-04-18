@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yoru.css v2.0 — 夜のための、ひとりぶんの CSS。</title>
+<meta name="description" content="ダーク・テックに振り切った、1ファイル完結の日本製 CSS パッケージ。LP・コーポレートサイト・ポートフォリオのための道具箱。">
+<link rel="stylesheet" href="yoru.css">
+<style>
+  /* このサイト専用の微調整だけをここに書く。yoru.css の世界観は崩さない */
+  .doc-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  .doc-sidebar {
+    position: sticky;
+    top: calc(64px + var(--space-xl));
+    border-left: 1px solid var(--border);
+    padding: var(--space-sm) 0 var(--space-sm) var(--space-md);
+  }
+  .doc-sidebar h6 {
+    margin-bottom: var(--space-sm);
+  }
+  .doc-sidebar ul {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: var(--space-lg);
+  }
+  .doc-sidebar a {
+    display: block;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    color: var(--text-2);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background var(--transition);
+  }
+  .doc-sidebar a:hover {
+    color: var(--text-0);
+    background: var(--bg-2);
+  }
+
+  .doc-section {
+    scroll-margin-top: 88px;
+  }
+  .doc-section + .doc-section {
+    margin-top: var(--space-3xl);
+  }
+  .doc-section > h2 {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  .doc-section > h2 .index {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--cyan);
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  /* ヒーロー用の追加エフェクト */
+  .hero-grid-strong::before {
+    background-size: 48px 48px;
+  }
+
+  /* クラスリファレンステーブル: 行を読みやすく */
+  .ref-table td:first-child {
+    font-family: var(--font-mono);
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+  .ref-table td:nth-child(2) {
+    color: var(--text-1);
+  }
+
+  /* 装飾的なキャッチ用の数字 */
+  .mega-num {
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 18vw, 14rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    background: linear-gradient(180deg, var(--text-0) 0%, rgba(240,244,255,0.15) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    user-select: none;
+  }
+
+  /* コピー可能コードブロック */
+  .copy-block {
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--bg-3);
+    color: var(--text-2);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .copy-btn:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+  }
+  .copy-btn.is-copied {
+    color: var(--success);
+    border-color: var(--success);
+  }
+
+  /* フィーチャーグリッドの番号 */
+  .feature-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--cyan);
+    margin-bottom: var(--space-sm);
+    display: block;
+  }
+
+  /* プレビュー枠 */
+  .preview {
+    background:
+      linear-gradient(var(--bg-1) 1px, transparent 1px) 0 0 / 16px 16px,
+      linear-gradient(90deg, var(--bg-1) 1px, transparent 1px) 0 0 / 16px 16px,
+      var(--bg-0);
+    padding: var(--space-xl);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--border-mid);
+  }
+
+  @media (max-width: 900px) {
+    .doc-layout { grid-template-columns: 1fr; }
+    .doc-sidebar { display: none; }
+  }
+</style>
+</head>
+<body class="has-navbar">
+
+
+<!-- ========== ナビバー ========== -->
+<nav class="navbar">
+  <div class="container">
+    <a href="#top" class="navbar-logo">yoru<span class="text-cyan">.</span>css <span class="mono small text-muted" style="margin-left:8px;">v2.0</span></a>
+    <div class="navbar-nav">
+      <a href="#why">Why</a>
+      <a href="#start">はじめる</a>
+      <a href="#components">コンポーネント</a>
+      <a href="#tokens">トークン</a>
+      <a href="#reference">リファレンス</a>
+      <a href="demo.html" class="btn btn-primary btn-sm">Live Demo →</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <nav class="nav-drawer-nav">
+    <a href="#why">Why yoru</a>
+    <a href="#start">はじめる</a>
+    <a href="#components">コンポーネント</a>
+    <a href="#tokens">デザイントークン</a>
+    <a href="#reference">リファレンス</a>
+    <a href="demo.html" class="btn btn-primary mt-md">Live Demo →</a>
+  </nav>
+</div>
+
+
+<!-- ========== ヒーロー ========== -->
+<header class="hero hero-grid-strong" id="top">
+  <div class="container">
+    <div class="hero-content">
+      <span class="tagline mb-md">// yoru.css — dark · tech · one file</span>
+      <h1 style="margin-bottom: var(--space-md);">
+        夜のための、<br>
+        <span class="text-gradient">ひとりぶん</span>の CSS。
+      </h1>
+      <p style="font-size:1.15rem;max-width:620px;">
+        <strong style="color:var(--text-0);">yoru.css</strong> は、
+        ダーク・テック方向に振り切った日本製の 1 ファイル CSS パッケージです。<br>
+        LP・コーポレートサイト・ポートフォリオ——<em>制作者ひとりが使うための</em>、個性ある道具箱。
+      </p>
+      <div class="hero-actions">
+        <a href="#start" class="btn btn-primary btn-lg">5 分で始める</a>
+        <a href="demo.html" class="btn btn-outline-cyan btn-lg">ライブデモを見る →</a>
+      </div>
+      <div class="flex gap-md mt-xl" style="flex-wrap:wrap;">
+        <span class="badge badge-cyan badge-dot">v2.0 released</span>
+        <span class="badge">1 file</span>
+        <span class="badge">no build</span>
+        <span class="badge">~50KB</span>
+        <span class="badge">MIT</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ========== Why yoru ========== -->
+<section id="why" class="section-dark doc-section">
+  <div class="container">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 01 — philosophy</span>
+        <h2 class="mt-sm">なぜ yoru.css なのか</h2>
+      </div>
+      <span class="mega-num">01</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="card card-accent card-hover-lift">
+        <span class="feature-num">01 / PHILOSOPHY</span>
+        <h4 class="mb-sm">ダークに、振り切る。</h4>
+        <p class="small text-muted">
+          ライトテーマはサポートしません。夜にしか輝かないデザインに全力を注ぐことで、フレームワーク化できない個性を生みます。
+        </p>
+      </div>
+      <div class="card card-accent card-hover-lift">
+        <span class="feature-num">02 / SIMPLICITY</span>
+        <h4 class="mb-sm">1 ファイル、ビルド不要。</h4>
+        <p class="small text-muted">
+          <code>&lt;link&gt;</code> 1 行で完結。Webpack も PostCSS も Tailwind も不要。HTML とテキストエディタさえあれば動きます。
+        </p>
+      </div>
+      <div class="card card-accent card-hover-lift">
+        <span class="feature-num">03 / FOR YOU</span>
+        <h4 class="mb-sm">俺だけの CSS。</h4>
+        <p class="small text-muted">
+          汎用フレームワークではありません。LP・コーポレート・ポートフォリオの 3 用途に特化した、あなたひとりの道具です。
+        </p>
+      </div>
+    </div>
+
+    <div class="alert alert-info mt-xl">
+      <div>
+        <strong>note:</strong> yoru.css は Tailwind や Bootstrap のような網羅性を目指しません。
+        「この方向で作るなら、これだけあれば足りる」という実用の輪郭を持ったパッケージです。
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== 5分で始める ========== -->
+<section id="start" class="doc-section">
+  <div class="container">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 02 — getting started</span>
+        <h2 class="mt-sm">5 分で始める</h2>
+      </div>
+      <span class="mega-num">02</span>
+    </div>
+
+    <div class="grid-3 mb-xl">
+      <!-- Step 1 -->
+      <div class="card">
+        <span class="feature-num">STEP 01</span>
+        <h4 class="mb-md">ファイルを置く</h4>
+        <p class="small text-muted mb-md">
+          <code>yoru.css</code> を HTML と同じフォルダに置くだけ。CDN も npm も不要です。
+        </p>
+        <div class="preview flex-center" style="min-height:120px;">
+          <pre class="mono small" style="padding:var(--space-md);margin:0;">project/
+├─ index.html
+└─ <span class="text-cyan">yoru.css</span></pre>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="card">
+        <span class="feature-num">STEP 02</span>
+        <h4 class="mb-md">1 行追加する</h4>
+        <p class="small text-muted mb-md">
+          <code>&lt;head&gt;</code> にこれを書いたら、もう始まっています。
+        </p>
+        <div class="copy-block">
+          <pre><code id="code-link">&lt;link rel="stylesheet" href="yoru.css"&gt;</code></pre>
+          <button class="copy-btn" data-copy="code-link">copy</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="card">
+        <span class="feature-num">STEP 03</span>
+        <h4 class="mb-md">クラスを使う</h4>
+        <p class="small text-muted mb-md">
+          クラス名を当てるだけで、ダーク・テックの世界が立ち上がります。
+        </p>
+        <div class="preview flex-center">
+          <button class="btn btn-primary">始める</button>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="mb-md">最小のテンプレート</h4>
+    <div class="copy-block">
+<pre><code id="code-template">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;My Site&lt;/title&gt;
+  &lt;link rel="stylesheet" href="yoru.css"&gt;
+&lt;/head&gt;
+&lt;body class="has-navbar"&gt;
+
+  &lt;section class="hero"&gt;
+    &lt;div class="container"&gt;
+      &lt;div class="hero-content"&gt;
+        &lt;span class="tagline"&gt;// hello&lt;/span&gt;
+        &lt;h1&gt;こんにちは、&lt;span class="text-gradient"&gt;夜&lt;/span&gt;。&lt;/h1&gt;
+        &lt;p&gt;ここから始めよう。&lt;/p&gt;
+        &lt;a href="#" class="btn btn-primary btn-lg"&gt;スタート&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <button class="copy-btn" data-copy="code-template">copy</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== コンポーネント ========== -->
+<section id="components" class="section-grid doc-section">
+  <div class="container">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 03 — components</span>
+        <h2 class="mt-sm">コンポーネント一覧</h2>
+      </div>
+      <span class="mega-num">03</span>
+    </div>
+
+    <div class="doc-layout">
+
+      <!-- サイドバー -->
+      <aside class="doc-sidebar">
+        <h6>目次</h6>
+        <ul>
+          <li><a href="#c-buttons">ボタン</a></li>
+          <li><a href="#c-cards">カード</a></li>
+          <li><a href="#c-forms">フォーム</a></li>
+          <li><a href="#c-nav">ナビ・ドロワー</a></li>
+          <li><a href="#c-modal">モーダル</a></li>
+          <li><a href="#c-accordion">アコーディオン</a></li>
+          <li><a href="#c-tooltip">ツールチップ</a></li>
+          <li><a href="#c-toast">トースト</a></li>
+          <li><a href="#c-loading">ローディング</a></li>
+          <li><a href="#c-reveal">スクロール演出</a></li>
+        </ul>
+      </aside>
+
+      <!-- 本文 -->
+      <div>
+
+        <!-- ボタン -->
+        <article id="c-buttons" class="mb-xl">
+          <h3 class="mb-sm">ボタン</h3>
+          <p class="text-muted small mb-md">用途とトーンに合わせて 6 種。サイズは 3 段階。</p>
+          <div class="preview flex gap-sm mb-md" style="flex-wrap:wrap;">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-violet">Violet</button>
+            <button class="btn btn-outline-cyan">Outline</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-icon btn-secondary" aria-label="設定">⚙</button>
+          </div>
+<pre><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn-outline-cyan btn-lg"&gt;大きめ&lt;/button&gt;
+&lt;button class="btn btn-icon btn-secondary"&gt;⚙&lt;/button&gt;</code></pre>
+        </article>
+
+        <!-- カード -->
+        <article id="c-cards" class="mb-xl">
+          <h3 class="mb-sm">カード</h3>
+          <p class="text-muted small mb-md">標準 / アクセント / ホバーグロー / 画像付き / 横並び。</p>
+          <div class="preview">
+            <div class="grid-2">
+              <div class="card card-accent">
+                <h5 class="mb-sm">アクセント</h5>
+                <p class="small text-muted">上辺にラインが入ります。</p>
+              </div>
+              <div class="card card-hover-lift">
+                <h5 class="mb-sm">Hover Lift</h5>
+                <p class="small text-muted">ホバーで浮きます。</p>
+              </div>
+            </div>
+          </div>
+<pre class="mt-md"><code>&lt;div class="card card-accent card-hover-lift"&gt;
+  &lt;h5&gt;タイトル&lt;/h5&gt;
+  &lt;p&gt;本文&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+
+        <!-- フォーム -->
+        <article id="c-forms" class="mb-xl">
+          <h3 class="mb-sm">フォーム</h3>
+          <p class="text-muted small mb-md">入力要素はすべてデフォルトでスタイル済み。</p>
+          <div class="preview">
+            <div class="form-group">
+              <label>メールアドレス</label>
+              <input type="email" placeholder="you@example.com">
+              <span class="form-hint">送信後、確認メールが届きます。</span>
+            </div>
+            <label class="switch-field mt-md">
+              <span>通知を受け取る</span>
+              <span class="switch"><input type="checkbox" checked><span class="switch-slider"></span></span>
+            </label>
+          </div>
+<pre class="mt-md"><code>&lt;div class="form-group"&gt;
+  &lt;label&gt;メールアドレス&lt;/label&gt;
+  &lt;input type="email" placeholder="you@example.com"&gt;
+&lt;/div&gt;
+
+&lt;label class="switch-field"&gt;
+  &lt;span&gt;通知&lt;/span&gt;
+  &lt;span class="switch"&gt;
+    &lt;input type="checkbox"&gt;
+    &lt;span class="switch-slider"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/label&gt;</code></pre>
+        </article>
+
+        <!-- ナビ -->
+        <article id="c-nav" class="mb-xl">
+          <h3 class="mb-sm">ナビバー & モバイルドロワー</h3>
+          <p class="text-muted small mb-md">固定ナビ + ハンバーガー。モバイルで自動切り替え。</p>
+<pre><code>&lt;nav class="navbar"&gt;
+  &lt;div class="container"&gt;
+    &lt;a class="navbar-logo"&gt;Logo&lt;/a&gt;
+    &lt;div class="navbar-nav"&gt;
+      &lt;a href="#"&gt;About&lt;/a&gt;
+      &lt;a href="#"&gt;Works&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;button class="hamburger" id="hamburger"&gt;
+      &lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class="nav-drawer" id="navDrawer"&gt; ... &lt;/div&gt;</code></pre>
+          <div class="alert alert-info mt-md">
+            <div>
+              <strong>JS 最小実装：</strong>
+              <code>hamburger.addEventListener('click', () =&gt; { hamburger.classList.toggle('is-open'); navDrawer.classList.toggle('is-open'); })</code>
+              の 1 行相当で OK。<code>demo.html</code> に完全版があります。
+            </div>
+          </div>
+        </article>
+
+        <!-- モーダル -->
+        <article id="c-modal" class="mb-xl">
+          <h3 class="mb-sm">モーダル</h3>
+          <p class="text-muted small mb-md"><code>data-modal-open="ID"</code> で開き、<code>data-modal-close</code> で閉じる。</p>
+          <div class="preview flex-center" style="min-height:120px;">
+            <button class="btn btn-primary" data-modal-open="docModal">モーダルを開く</button>
+          </div>
+<pre class="mt-md"><code>&lt;button data-modal-open="myModal" class="btn btn-primary"&gt;開く&lt;/button&gt;
+
+&lt;div class="modal-overlay" id="myModal" data-modal-close&gt;
+  &lt;div class="modal" onclick="event.stopPropagation()"&gt;
+    &lt;div class="modal-header"&gt;
+      &lt;h3 class="modal-title"&gt;タイトル&lt;/h3&gt;
+      &lt;button class="modal-close" data-modal-close&gt;×&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-body"&gt;...&lt;/div&gt;
+    &lt;div class="modal-footer"&gt;
+      &lt;button class="btn btn-primary" data-modal-close&gt;OK&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+
+        <!-- アコーディオン -->
+        <article id="c-accordion" class="mb-xl">
+          <h3 class="mb-sm">アコーディオン</h3>
+          <p class="text-muted small mb-md"><code>&lt;details&gt;</code> を使うので <strong>JS 不要</strong>。FAQ に最適。</p>
+          <div class="preview" style="padding:0;">
+            <div class="accordion" style="background:transparent;border:none;">
+              <details class="accordion-item" open>
+                <summary>JS は本当にいらないの？</summary>
+                <div>いりません。ネイティブの <code>&lt;details&gt;</code> の挙動を活かしているので、読み込み順や SEO の問題もなし。</div>
+              </details>
+              <details class="accordion-item">
+                <summary>複数同時に開ける？</summary>
+                <div>はい。グループ化したい場合は <code>name</code> 属性を使ってください（ブラウザ対応状況に注意）。</div>
+              </details>
+            </div>
+          </div>
+<pre class="mt-md"><code>&lt;div class="accordion"&gt;
+  &lt;details class="accordion-item" open&gt;
+    &lt;summary&gt;質問&lt;/summary&gt;
+    &lt;div&gt;回答&lt;/div&gt;
+  &lt;/details&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+
+        <!-- ツールチップ -->
+        <article id="c-tooltip" class="mb-xl">
+          <h3 class="mb-sm">ツールチップ</h3>
+          <p class="text-muted small mb-md"><code>data-tip="..."</code> 属性だけで CSS のみ実装。</p>
+          <div class="preview flex gap-md" style="flex-wrap:wrap;">
+            <button class="btn btn-secondary" data-tip="上に出ます">上</button>
+            <button class="btn btn-secondary tip-bottom" data-tip="下に出ます">下</button>
+            <button class="btn btn-secondary tip-left" data-tip="左に出ます">左</button>
+            <button class="btn btn-secondary tip-right" data-tip="右に出ます">右</button>
+          </div>
+<pre class="mt-md"><code>&lt;button data-tip="説明"&gt;上（デフォルト）&lt;/button&gt;
+&lt;button data-tip="説明" class="tip-bottom"&gt;下&lt;/button&gt;</code></pre>
+        </article>
+
+        <!-- トースト -->
+        <article id="c-toast" class="mb-xl">
+          <h3 class="mb-sm">トースト / 通知</h3>
+          <p class="text-muted small mb-md">右下に積まれる通知。自動で消えます。</p>
+          <div class="preview flex gap-sm" style="flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="yoruToast({type:'success',title:'保存しました',body:'ドキュメントが保存されました'})">成功</button>
+            <button class="btn btn-outline-violet" onclick="yoruToast({type:'info',title:'お知らせ',body:'新機能が追加されました'})">情報</button>
+          </div>
+<pre class="mt-md"><code>&lt;!-- 挿入先 --&gt;
+&lt;div class="toast-stack" id="toastStack"&gt;&lt;/div&gt;
+
+&lt;!-- JS --&gt;
+yoruToast({ type: 'success', title: '完了', body: '保存しました' });</code></pre>
+        </article>
+
+        <!-- ローディング -->
+        <article id="c-loading" class="mb-xl">
+          <h3 class="mb-sm">ローディング / スケルトン</h3>
+          <p class="text-muted small mb-md">スピナー 3 色 × 3 サイズ。スケルトンは shimmer 付き。</p>
+          <div class="preview flex gap-lg" style="align-items:center; flex-wrap:wrap;">
+            <span class="spinner spinner-sm"></span>
+            <span class="spinner spinner-cyan"></span>
+            <span class="spinner spinner-violet spinner-lg"></span>
+            <div style="flex:1;min-width:200px;">
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text" style="width:70%;"></div>
+            </div>
+          </div>
+<pre class="mt-md"><code>&lt;span class="spinner spinner-cyan"&gt;&lt;/span&gt;
+
+&lt;div class="skeleton skeleton-title"&gt;&lt;/div&gt;
+&lt;div class="skeleton skeleton-text"&gt;&lt;/div&gt;</code></pre>
+        </article>
+
+        <!-- リビール -->
+        <article id="c-reveal" class="mb-xl">
+          <h3 class="mb-sm">スクロール演出</h3>
+          <p class="text-muted small mb-md"><code>.reveal</code> を付けて IntersectionObserver で <code>.is-visible</code> を付与。</p>
+<pre><code>&lt;div class="reveal"&gt;上からふわっと&lt;/div&gt;
+&lt;div class="reveal reveal-left"&gt;左からスライド&lt;/div&gt;
+
+&lt;script&gt;
+const io = new IntersectionObserver(entries =&gt; {
+  entries.forEach(e =&gt; e.isIntersecting &amp;&amp; e.target.classList.add('is-visible'));
+});
+document.querySelectorAll('.reveal').forEach(el =&gt; io.observe(el));
+&lt;/script&gt;</code></pre>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== デザイントークン ========== -->
+<section id="tokens" class="section-dots doc-section">
+  <div class="container">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 04 — design tokens</span>
+        <h2 class="mt-sm">デザイントークン</h2>
+      </div>
+      <span class="mega-num">04</span>
+    </div>
+
+    <p class="lead mb-xl">
+      yoru.css はすべての見た目を <strong>CSS 変数</strong> で管理しています。<br>
+      <code>:root</code> を上書きするだけで、プロジェクト全体のトーンが変わります。
+    </p>
+
+    <h4 class="mb-md">カラーパレット</h4>
+    <div class="grid-auto mb-xl">
+      <div class="card" style="border-top:4px solid var(--cyan);">
+        <span class="mono small text-muted">--cyan</span>
+        <h5 class="mt-sm" style="color:var(--cyan);">#00e5cc</h5>
+        <p class="small text-muted mt-sm">アクセント（主）。ボタン・リンク・フォーカスリング。</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--violet);">
+        <span class="mono small text-muted">--violet</span>
+        <h5 class="mt-sm" style="color:var(--violet);">#7c5cfc</h5>
+        <p class="small text-muted mt-sm">アクセント（副）。サブ CTA・グラデーション。</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--success);">
+        <span class="mono small text-muted">--success</span>
+        <h5 class="mt-sm" style="color:var(--success);">#22d97a</h5>
+        <p class="small text-muted mt-sm">成功・オンラインステータス。</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--warning);">
+        <span class="mono small text-muted">--warning</span>
+        <h5 class="mt-sm" style="color:var(--warning);">#f0a30a</h5>
+        <p class="small text-muted mt-sm">警告・保留。</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--danger);">
+        <span class="mono small text-muted">--danger</span>
+        <h5 class="mt-sm" style="color:var(--danger);">#f05252</h5>
+        <p class="small text-muted mt-sm">エラー・破壊的操作。</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--info);">
+        <span class="mono small text-muted">--info</span>
+        <h5 class="mt-sm" style="color:var(--info);">#3b9eff</h5>
+        <p class="small text-muted mt-sm">情報・リンク補助。</p>
+      </div>
+    </div>
+
+    <h4 class="mb-md">背景 & ボーダー（深さの階層）</h4>
+    <div class="table-wrap mb-xl">
+      <table class="ref-table">
+        <thead>
+          <tr><th style="width:30%;">変数</th><th style="width:40%;">用途</th><th>値</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>--bg-0</td><td>最深部の黒（ツールチップ等）</td><td class="mono">#080b10</td></tr>
+          <tr><td>--bg-1</td><td>ページ背景</td><td class="mono">#0d1117</td></tr>
+          <tr><td>--bg-2</td><td>カード・パネル</td><td class="mono">#161b24</td></tr>
+          <tr><td>--bg-3</td><td>入力フィールド・ホバー</td><td class="mono">#1e2533</td></tr>
+          <tr><td>--bg-4</td><td>ボーダー上サーフェス</td><td class="mono">#2a3245</td></tr>
+          <tr><td>--text-0</td><td>見出し（最強）</td><td class="mono">#f0f4ff</td></tr>
+          <tr><td>--text-1</td><td>本文</td><td class="mono">#c8d0e0</td></tr>
+          <tr><td>--text-2</td><td>サブ・ラベル</td><td class="mono">#7f8da8</td></tr>
+          <tr><td>--text-3</td><td>プレースホルダー</td><td class="mono">#4a5568</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mb-md">カスタマイズ例</h4>
+    <p class="text-muted small mb-md">
+      サイト全体のアクセントをピンクに変えたい、という場合はこれだけです：
+    </p>
+<pre><code>/* あなたの your-style.css */
+:root {
+  --cyan:      #ff3d88;
+  --cyan-dim:  #d11e68;
+  --cyan-glow: rgba(255, 61, 136, 0.15);
+}</code></pre>
+    <p class="small text-muted mt-md">
+      <code>yoru.css</code> の後に読み込むだけで、ボタン・リンク・フォーカス・プログレスバー・タイムラインまで、すべてが新しい色で統一されます。
+    </p>
+  </div>
+</section>
+
+
+<!-- ========== クラスリファレンス ========== -->
+<section id="reference" class="doc-section">
+  <div class="container">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 05 — class reference</span>
+        <h2 class="mt-sm">クラスリファレンス</h2>
+      </div>
+      <span class="mega-num">05</span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead>
+          <tr><th style="width:34%;">クラス名</th><th>用途</th></tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">レイアウト</td></tr>
+          <tr><td>.container / .container-sm / -md / -lg</td><td>中央寄せコンテナ（最大幅 720 / 960 / 1200 / 1440 px）</td></tr>
+          <tr><td>.grid / .grid-2 / -3 / -4 / -auto</td><td>グリッドレイアウト。モバイルで自動 1 列。</td></tr>
+          <tr><td>.flex / .flex-center / .flex-between / .flex-col</td><td>Flexbox ユーティリティ</td></tr>
+          <tr><td>.gap-sm / -md / -lg / -xl</td><td>Flexbox / Grid の gap</td></tr>
+          <tr><td>.section-dark / -grid / -gradient / -dots</td><td>セクション背景バリエーション <span class="badge badge-cyan small" style="font-size:0.65rem;">v2</span></td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">ナビ</td></tr>
+          <tr><td>.navbar / .navbar-logo / .navbar-nav</td><td>固定ナビ（ガラスモーフィズム）</td></tr>
+          <tr><td>.hamburger / .hamburger.is-open</td><td>ハンバーガーボタン <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.nav-drawer / .nav-drawer.is-open</td><td>モバイルドロワー <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">ボタン</td></tr>
+          <tr><td>.btn + .btn-primary / -secondary / -violet / -ghost</td><td>メインのボタンバリアント</td></tr>
+          <tr><td>.btn-outline-cyan / .btn-outline-violet</td><td>アウトライン版 <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.btn-icon</td><td>丸アイコンボタン <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.btn-sm / .btn-lg / .is-loading</td><td>サイズ修飾 / ローディング状態（スピナー付）</td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">カード</td></tr>
+          <tr><td>.card / .card-accent / -accent-violet / -glow</td><td>基本のカード</td></tr>
+          <tr><td>.card-hover-lift / -image / -horizontal</td><td>カード強化バリアント <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">オーバーレイ</td></tr>
+          <tr><td>.modal-overlay / .modal / -header / -body / -footer</td><td>モーダル <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.accordion / details.accordion-item</td><td>アコーディオン <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>[data-tip] + .tip-top / -bottom / -left / -right</td><td>ツールチップ <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.toast-stack / .toast / -success / -warning / -danger</td><td>トースト <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">フォーム</td></tr>
+          <tr><td>.form-group / .form-hint / .input</td><td>フォームの基本セット</td></tr>
+          <tr><td>.checkbox / .radio</td><td>チェックボックス / ラジオ</td></tr>
+          <tr><td>.switch / .switch-slider / .switch-field</td><td>トグルスイッチ <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">その他</td></tr>
+          <tr><td>.badge / -cyan / -violet / -success / -warning / -danger / -dot</td><td>バッジ・ステータスタグ</td></tr>
+          <tr><td>.avatar / -sm / -md / -lg / -xl / -cyan / -violet</td><td>アバター</td></tr>
+          <tr><td>.timeline / .timeline-item / .is-active</td><td>タイムライン</td></tr>
+          <tr><td>.progress / .progress-bar / .violet / .gradient</td><td>プログレスバー</td></tr>
+          <tr><td>.stat-card / .stat-value / .stat-delta</td><td>スタッツカード</td></tr>
+          <tr><td>.spinner / -sm / -lg / -cyan / -violet</td><td>スピナー <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.skeleton / -text / -title / -avatar / -card / -image</td><td>スケルトン <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+
+          <tr><td colspan="2" style="background:var(--bg-3);color:var(--cyan);font-family:var(--font-mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">アニメーション</td></tr>
+          <tr><td>.animate-fadeInUp / -fadeIn / -pulse</td><td>エントリーアニメ（stagger-1〜5 で遅延）</td></tr>
+          <tr><td>.reveal / .reveal-left / -right / -up</td><td>スクロールリビール（.is-visible で発火） <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.hover-lift / .hover-glow-cyan / -violet</td><td>ホバーエフェクト <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.text-flicker / .text-flicker-violet</td><td>ネオンフリッカー <span class="badge badge-cyan" style="font-size:0.65rem;">v2</span></td></tr>
+          <tr><td>.text-gradient / .text-cyan / -violet / -muted</td><td>テキスト色・グラデーション</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== v2 変更点 ========== -->
+<section class="section-gradient doc-section">
+  <div class="container">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 06 — changelog</span>
+        <h2 class="mt-sm">v1.0 から v2.0 へ</h2>
+      </div>
+      <span class="mega-num">06</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-accent">
+        <h4 class="mb-md">🆕 新規追加</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+          <li class="small">✳︎ ハンバーガーメニュー + モバイルドロワー</li>
+          <li class="small">✳︎ モーダル（標準 / small / large / xl）</li>
+          <li class="small">✳︎ アコーディオン（<code>&lt;details&gt;</code> ベース・JS 不要）</li>
+          <li class="small">✳︎ ツールチップ（4 方向・CSS のみ）</li>
+          <li class="small">✳︎ スイッチ / トグル</li>
+          <li class="small">✳︎ スピナー（3 色 × 3 サイズ）</li>
+          <li class="small">✳︎ スケルトンローダー（shimmer 付き）</li>
+          <li class="small">✳︎ トースト / 通知スタック</li>
+          <li class="small">✳︎ セクション背景 4 種（dark / grid / gradient / dots）</li>
+        </ul>
+      </div>
+      <div class="card card-accent-violet">
+        <h4 class="mb-md">🔧 改善・追加</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+          <li class="small">✳︎ カード: <code>.card-hover-lift</code> / <code>.card-image</code> / <code>.card-horizontal</code></li>
+          <li class="small">✳︎ ボタン: <code>.btn-outline-cyan</code> / <code>.btn-outline-violet</code> / <code>.btn-icon</code></li>
+          <li class="small">✳︎ ボタンのローディング状態にスピナー内蔵</li>
+          <li class="small">✳︎ スクロールリビール: <code>.reveal</code> + <code>.is-visible</code></li>
+          <li class="small">✳︎ ホバー系: <code>.hover-lift</code> / <code>.hover-glow-cyan</code> / <code>.hover-glow-violet</code></li>
+          <li class="small">✳︎ テキスト: <code>.text-flicker</code>（ネオンフリッカー）</li>
+          <li class="small">✳︎ z-index レイヤーを変数化</li>
+          <li class="small">✳︎ <code>.theme-soft</code> で少し明るめのダークに切り替え可能</li>
+          <li class="small">✳︎ <code>prefers-reduced-motion</code> 対応</li>
+          <li class="small">✳︎ <code>!important</code> を完全撤廃</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert alert-success mt-xl">
+      <div>
+        <strong>後方互換性：</strong>
+        v1.0 のクラス名は 1 つも変更していません。v1.0 で作ったサイトは、<code>yoru.css</code> を差し替えるだけでそのまま動きます。
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== ルール / FAQ ========== -->
+<section class="section-dark doc-section">
+  <div class="container container-md">
+    <div class="flex-between mb-xl" style="align-items:flex-end; flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <span class="tagline">// 07 — faq</span>
+        <h2 class="mt-sm">よくある質問</h2>
+      </div>
+      <span class="mega-num">07</span>
+    </div>
+
+    <div class="accordion">
+      <details class="accordion-item" open>
+        <summary>明るいテーマに対応させたいのですが…</summary>
+        <div>
+          yoru.css は意図的にダーク専用です。色の階調はすべて「夜を前提」に組まれています。
+          ただし、<code>&lt;body class="theme-soft"&gt;</code> を付けると、やや明るめのダーク（たとえば日中のオフィスでも見やすいトーン）に切り替わります。
+          完全な白背景が必要な場合は、別の CSS を併用してください。
+        </div>
+      </details>
+      <details class="accordion-item">
+        <summary>Tailwind と併用できますか？</summary>
+        <div>
+          技術的には可能ですが、思想が真逆なのでおすすめしません。
+          yoru.css は「クラスを足していくアトミック」ではなく「コンポーネント名を書くセマンティック」の設計です。
+          両方を混ぜると、どちらの強みも失います。
+        </div>
+      </details>
+      <details class="accordion-item">
+        <summary>JavaScript はどこまで必要ですか？</summary>
+        <div>
+          モーダル・ドロワー・トースト・スクロールリビールの 4 つだけ、わずかな JS が必要です。
+          コード量は合計 <strong>50 行程度</strong> で、<code>demo.html</code> の末尾にそのまま使える完成版が入っています。コピーして <code>&lt;/body&gt;</code> の直前に貼るだけで全部動きます。
+        </div>
+      </details>
+      <details class="accordion-item">
+        <summary>本番環境で使っても大丈夫ですか？</summary>
+        <div>
+          はい。外部依存は Google Fonts の読み込みのみで、それ以外は完全にセルフコンテインドです。
+          フォントをローカルホストに変えれば、外部通信ゼロでも動作します。
+        </div>
+      </details>
+      <details class="accordion-item">
+        <summary>カスタマイズの指針は？</summary>
+        <div>
+          <strong>変数でやる、クラスは増やさない。</strong>これが一番の原則です。
+          <code>:root</code> を上書きすれば色・スペーシング・シャドウまで一貫して変わります。
+          個別のクラスに <code>style</code> を書くより、変数を直せば済むケースがほとんどです。
+        </div>
+      </details>
+      <details class="accordion-item">
+        <summary>ファイルサイズは？</summary>
+        <div>
+          非圧縮で約 50KB、gzip すると 10KB 前後です。Google Fonts の読み込みが別途走りますが、Tailwind 等と比べれば桁違いに軽量です。
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== CTA ========== -->
+<section class="section-gradient" style="padding-block: var(--space-3xl);">
+  <div class="container container-md text-center">
+    <span class="tagline mb-md">// ready?</span>
+    <h2 class="mb-md">さあ、夜を作ろう。</h2>
+    <p class="lead mb-xl">
+      1 ファイル。ビルドなし。あとは書くだけ。
+    </p>
+    <div class="flex gap-md" style="justify-content:center; flex-wrap:wrap;">
+      <a href="yoru.css" download class="btn btn-primary btn-lg">yoru.css をダウンロード</a>
+      <a href="demo.html" class="btn btn-outline-cyan btn-lg">ライブデモへ →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== フッター ========== -->
+<footer class="section-sm section-dark" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="flex-between" style="flex-wrap:wrap; gap:var(--space-md);">
+      <div>
+        <div class="navbar-logo mb-sm">yoru<span class="text-cyan">.</span>css</div>
+        <p class="small text-muted" style="margin:0;">
+          © 2026 yoru.css v2.0 — built for the night, for one person.
+        </p>
+      </div>
+      <div class="flex gap-md" style="align-items:center;">
+        <span class="badge badge-cyan badge-dot">stable</span>
+        <span class="tagline">// stay dark, stay sharp.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ========== モーダル（ドキュメントデモ用） ========== -->
+<div class="modal-overlay" id="docModal" data-modal-close role="dialog" aria-labelledby="docModalTitle">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="modal-title" id="docModalTitle">モーダルデモ</h3>
+      <button class="modal-close" data-modal-close aria-label="閉じる">×</button>
+    </div>
+    <div class="modal-body">
+      <p>このモーダルは <code>yoru.css</code> のものです。背景クリック、<kbd>Esc</kbd>、× のどれでも閉じられます。</p>
+      <p class="mt-md small text-muted">実装は data 属性を見る数行の JS だけ。ページ末尾のスクリプトをご覧ください。</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-modal-close>キャンセル</button>
+      <button class="btn btn-primary" data-modal-close>わかった</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- トースト挿入先 -->
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+
+<script>
+  /* ========== ハンバーガー / ドロワー ========== */
+  (function(){
+    var btn    = document.getElementById('hamburger');
+    var drawer = document.getElementById('navDrawer');
+    if(!btn || !drawer) return;
+    btn.addEventListener('click', function(){
+      var open = btn.classList.toggle('is-open');
+      drawer.classList.toggle('is-open', open);
+      document.body.classList.toggle('no-scroll', open);
+      btn.setAttribute('aria-expanded', open);
+      drawer.setAttribute('aria-hidden', !open);
+    });
+    drawer.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        btn.classList.remove('is-open');
+        drawer.classList.remove('is-open');
+        document.body.classList.remove('no-scroll');
+      });
+    });
+  })();
+
+  /* ========== モーダル ========== */
+  (function(){
+    document.querySelectorAll('[data-modal-open]').forEach(function(trg){
+      trg.addEventListener('click', function(){
+        var id = trg.getAttribute('data-modal-open');
+        var m  = document.getElementById(id);
+        if(m) m.classList.add('is-open');
+      });
+    });
+    document.querySelectorAll('[data-modal-close]').forEach(function(trg){
+      trg.addEventListener('click', function(e){
+        if(e.target !== trg && !trg.hasAttribute('data-modal-close')) return;
+        var m = trg.closest('.modal-overlay');
+        if(m) m.classList.remove('is-open');
+      });
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        document.querySelectorAll('.modal-overlay.is-open').forEach(function(m){
+          m.classList.remove('is-open');
+        });
+      }
+    });
+  })();
+
+  /* ========== トースト ========== */
+  function yoruToast(opts){
+    opts = opts || {};
+    var stack = document.getElementById('toastStack');
+    if(!stack) return;
+    var t = document.createElement('div');
+    t.className = 'toast toast-' + (opts.type || 'info');
+    t.innerHTML =
+      '<div style="flex:1;">' +
+        (opts.title ? '<div class="toast-title">' + opts.title + '</div>' : '') +
+        (opts.body  ? '<div class="toast-body">'  + opts.body  + '</div>' : '') +
+      '</div>' +
+      '<button class="toast-close" aria-label="閉じる">×</button>';
+    stack.appendChild(t);
+    var remove = function(){
+      t.classList.add('is-leaving');
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 260);
+    };
+    t.querySelector('.toast-close').addEventListener('click', remove);
+    setTimeout(remove, opts.duration || 3800);
+  }
+
+  /* ========== コピー ========== */
+  (function(){
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-copy');
+        var code = document.getElementById(id);
+        if(!code) return;
+        var text = code.innerText;
+        navigator.clipboard.writeText(text).then(function(){
+          var orig = btn.textContent;
+          btn.textContent = 'copied!';
+          btn.classList.add('is-copied');
+          setTimeout(function(){
+            btn.textContent = orig;
+            btn.classList.remove('is-copied');
+          }, 1400);
+        }).catch(function(){
+          // フォールバック
+          var r = document.createRange();
+          r.selectNode(code);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(r);
+          try { document.execCommand('copy'); } catch(e) {}
+          window.getSelection().removeAllRanges();
+        });
+      });
+    });
+  })();
+
+  /* ========== スクロールリビール ========== */
+  (function(){
+    if(!('IntersectionObserver' in window)){
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-up').forEach(function(el){
+        el.classList.add('is-visible');
+      });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(ent){
+        if(ent.isIntersecting){
+          ent.target.classList.add('is-visible');
+          io.unobserve(ent.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-up').forEach(function(el){
+      io.observe(el);
+    });
+  })();
+</script>
+
+</body>
+</html>
